@@ -1,9 +1,11 @@
 defmodule Api.Router do
   use Plug.Router
 
-  plug(Plug.Logger)
+  alias Api.Routes.V1
 
+  plug(Plug.Logger)
   plug(:match)
+  plug(:dispatch)
 
   plug(Plug.Parsers,
     parsers: [:json],
@@ -11,10 +13,14 @@ defmodule Api.Router do
     json_decoder: Poison
   )
 
-  plug(:dispatch)
+  forward("/v1", to: V1)
 
   get "/" do
-    send_resp(conn, 200, "OK")
+    data = %{
+      about: "Personal API for projects related to https://afriguez.com"
+    }
+
+    send_resp(conn, 200, Poison.encode!(%{success: true, data: data}))
   end
 
   match _ do
