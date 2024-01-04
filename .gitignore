@@ -24,3 +24,6 @@ api-*.tar
 
 # Temporary files, for example, from tests.
 /tmp/
+
+.env
+.env_docker
