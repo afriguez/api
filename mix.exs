@@ -21,7 +21,8 @@ defmodule Api.MixProject do
   defp deps do
     [
       {:plug_cowboy, "~> 2.6.1"},
-      {:poison, "~> 5.0"}
+      {:poison, "~> 5.0"},
+      {:httpoison, "~> 2.2"}
     ]
   end
 end
