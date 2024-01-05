@@ -1,6 +1,7 @@
 defmodule Api.Routes.V1 do
   use Plug.Router
 
+  alias Api.Util
   alias Api.Clients.IGDB
 
   plug(:match)
@@ -14,10 +15,10 @@ defmodule Api.Routes.V1 do
         cover = IGDB.get_cover!(game)
         url = String.replace(cover["url"], "t_thumb", "t_cover_big")
         data = %{"url" => url}
-        send_resp(conn, 200, Poison.encode!(%{success: true, data: data}))
+        Util.respond(conn, {:ok, data})
 
-      {:error, reason} ->
-        send_resp(conn, 404, reason)
+      error ->
+        Util.respond(conn, error)
     end
   end
 
@@ -28,14 +29,14 @@ defmodule Api.Routes.V1 do
       {:ok, game} ->
         cover = IGDB.get_cover!(game)
         data = %{"url" => cover["url"]}
-        send_resp(conn, 200, Poison.encode!(%{success: true, data: data}))
+        Util.respond(conn, {:ok, data})
 
-      {:error, reason} ->
-        send_resp(conn, 404, reason)
+      error ->
+        Util.respond(conn, error)
     end
   end
 
   match _ do
-    send_resp(conn, 404, "Not Found")
+    Util.respond(conn, {:error, "Not Found"})
   end
 end
