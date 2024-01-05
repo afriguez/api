@@ -1,4 +1,4 @@
-defmodule Api.Clients.Games do
+defmodule Api.Clients.IGDB do
   use HTTPoison.Base
 
   @endpoint "https://api.igdb.com/v4"
@@ -27,7 +27,20 @@ defmodule Api.Clients.Games do
         headers()
       )
 
-    hd(Poison.decode!(body))
+    body = Poison.decode!(body)
+
+    if Enum.empty?(body) do
+      {:error, "Game Not Found"}
+    else
+      {:ok, hd(body)}
+    end
+  end
+
+  def search_game!(query, fields) do
+    case search_game(query, fields) do
+      {:ok, game} -> game
+      {:error, reason} -> raise reason
+    end
   end
 
   def get_cover(%{"cover" => ref_id}), do: get_cover(ref_id)
@@ -40,6 +53,19 @@ defmodule Api.Clients.Games do
         headers()
       )
 
-    hd(Poison.decode!(body))
+    body = Poison.decode!(body)
+
+    if Enum.empty?(body) do
+      {:error, "Cover Not Found"}
+    else
+      {:ok, hd(body)}
+    end
+  end
+
+  def get_cover!(ref_id) do
+    case get_cover(ref_id) do
+      {:ok, cover} -> cover
+      {:error, reason} -> raise reason
+    end
   end
 end
