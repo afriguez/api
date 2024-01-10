@@ -1,0 +1,17 @@
+name: Deploy to Gigalixir
+on:
+  push:
+    tags:
+      - v*
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: main
+          fetch-depth: 0
+      - run: sudo pip install gigalixir --ignored-installed six
+      - run: gigalixir login -e "${{ secrets.GIGALIXIR_USERNAME }}" -y -p "${{ secrets.GIGALIXIR_PASSWORD }}"
+      - run: gigalixir git:remote ${{ secrets.GIGALIXIR_APP_NAME }}
+      - run: git push -f gigalixir HEAD:refs/heads/main
