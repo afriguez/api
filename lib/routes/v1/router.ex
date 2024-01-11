@@ -10,8 +10,9 @@ defmodule Api.Routes.V1 do
   get "/games/cover/:query" do
     %Plug.Conn{params: %{"query" => query}} = conn
 
-    case IGDB.search_game(query, "cover") do
+    case IGDB.search_game(query) do
       {:ok, game} ->
+        IO.inspect(game)
         cover = IGDB.get_cover!(game)
         url = String.replace(cover["url"], "t_thumb", "t_cover_big")
         data = %{"url" => url}
@@ -25,7 +26,7 @@ defmodule Api.Routes.V1 do
   get "/games/thumbnail/:query" do
     %Plug.Conn{params: %{"query" => query}} = conn
 
-    case IGDB.search_game(query, "cover") do
+    case IGDB.search_game(query) do
       {:ok, game} ->
         cover = IGDB.get_cover!(game)
         data = %{"url" => cover["url"]}
