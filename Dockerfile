@@ -12,7 +12,7 @@ RUN mix local.hex --force && \
 	mix compile && \
 	mix release
 
-FROM elixir:1.14-alpine
+FROM elixir:1.16-alpine
 
 COPY --from=build /app/_build/prod/rel/api /opt/api
 
