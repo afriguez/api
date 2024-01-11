@@ -23,7 +23,8 @@ defmodule Api.MixProject do
       {:plug_cowboy, "~> 2.6.1"},
       {:poison, "~> 5.0"},
       {:httpoison, "~> 2.2"},
-      {:cachex, "~> 3.6.0"}
+      {:cachex, "~> 3.6.0"},
+      {:corsica, "~> 2.1.3"}
     ]
   end
 end
