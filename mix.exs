@@ -24,7 +24,9 @@ defmodule Api.MixProject do
       {:poison, "~> 5.0"},
       {:httpoison, "~> 2.2"},
       {:cachex, "~> 3.6.0"},
-      {:corsica, "~> 2.1.3"}
+      {:corsica, "~> 2.1.3"},
+      {:ecto_sql, "~> 3.11.1"},
+      {:postgrex, "~> 0.17.4"}
     ]
   end
 end
