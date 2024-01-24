@@ -7,6 +7,20 @@ defmodule Api.Routes.V1 do
   plug(:match)
   plug(:dispatch)
 
+  get "/linux_bootstrap" do
+    path = Path.join([:code.priv_dir(:api), "linux_bootstrap"])
+
+    case File.read(path) do
+      {:ok, data} ->
+        conn
+        |> put_resp_content_type("text/plain")
+        |> send_resp(200, data)
+
+      {:error, _reason} ->
+        Util.respond(conn, {:error, "File not found."})
+    end
+  end
+
   get "/games/cover/:query" do
     %Plug.Conn{params: %{"query" => query}} = conn
 
